@@ -6,7 +6,7 @@ library(ggplot2)
 library(dplyr)
 
 #Wczytanie danych do ramki danych 'dane' i ich wyświetlenie
-dane <- read.table(file="C:\\Users\\piotr\\Desktop\\Gotowe pliki\\praca_magisterska\\1. Dane.csv", sep=";", dec=".", header=T, stringsAsFactors=F)
+dane <- read.table(file="C:\\Users\\piotr\\Desktop\\Dane.csv", sep=";", dec=".", header=T, stringsAsFactors=F)
 View(dane)
 
 #Połączenie 'Dzien' i 'Godzina' w jedną kolumnę 'Data', konwersja 'Data' do postaci daty oraz usunięcie temperatur > 10°C 
@@ -33,7 +33,7 @@ median(dane$Temperatura)
 mean(dane$Temperatura)
 
 #Ponowne wczytanie danych, tym razem do ramki danych 'dane2' i wypisanie podstawowych statystyk
-dane2 <- read.table(file="C:\\Users\\piotr\\Desktop\\Gotowe pliki\\praca_magisterska\\1. Dane.csv", sep=";", dec=".", header=T, stringsAsFactors=F)
+dane2 <- read.table(file="C:\\Users\\piotr\\Desktop\\Dane.csv", sep=";", dec=".", header=T, stringsAsFactors=F)
 nrow(dane2)
 min(dane2$Temperatura)
 max(dane2$Temperatura)
@@ -60,7 +60,7 @@ abline(h=1.5, lty=3, col="black")
 abline(h=2, lty=3, col="black")
 
 #Ponowne wczytanie danych, tym razem do ramki danych 'dane3' oraz stworzenie dwóch modeli regresji liniowej
-dane3 <- read.table(file="C:\\Users\\piotr\\Desktop\\Gotowe pliki\\praca_magisterska\\1. Dane.csv", sep=";", dec=".", header=T, stringsAsFactors=F)
+dane3 <- read.table(file="C:\\Users\\piotr\\Desktop\\Dane.csv", sep=";", dec=".", header=T, stringsAsFactors=F)
 dane3$Dzien <- as.Date(dane3$Dzien, format="%d.%m.%Y")
 dane3$Godzina <- as.POSIXct(dane3$Godzina, format="%H:%M")
 dane3 <- subset(dane3, Temperatura < 10)
