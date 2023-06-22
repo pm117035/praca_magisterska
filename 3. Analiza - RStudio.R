@@ -4,16 +4,30 @@ rm(list=ls())
 #Dołączenie bibliotek
 library(ggplot2)
 library(dplyr)
+library(scales)
 
 #Wczytanie danych do ramki danych 'dane' i ich wyświetlenie
 dane <- read.table(file="C:\\Users\\piotr\\Desktop\\Dane.csv", sep=";", dec=".", header=T, stringsAsFactors=F)
 View(dane)
 
-#Połączenie 'Dzien' i 'Godzina' w jedną kolumnę 'Data', konwersja 'Data' do postaci daty oraz usunięcie temperatur > 10°C 
+#Połączenie 'Dzien' i 'Godzina' w jedną kolumnę 'Data' oraz konwersja do postaci daty 
 dane$Data <- paste(dane$Dzien, dane$Godzina)
 dane <- dane[,-2]
 dane <- dane[,-2]
 dane$Data <- as.POSIXct(dane$Data, format="%d.%m.%Y %H:%M")
+
+#Wykres temperatury podczas transportu jabłek drogą morską w kontenerze
+ggplot(dane, aes(x=Data, y=Temperatura)) +
+  geom_line(linewidth=0.8, colour = I("blue")) + 
+  xlab("Data") + 
+  ylab("Temperatura [°]") + 
+  ggtitle("Temperatura podczas transportu jabłek drogą morską w kontenerze") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_x_datetime(date_breaks = "1 day", date_labels ="%d.%m.%Y") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  scale_y_continuous(limits = c(0,26), breaks=seq(0,26,2))
+
+#Usunięcie temperatur > 10°C 
 dane <- subset(dane, Temperatura < 10)
 
 #Histogram temperatury podczas transportu żywności w kontenerze drogą morską
@@ -52,7 +66,7 @@ Outliers = boxplot(dane$Temperatura, plot=FALSE)$out
 show(Outliers)
 summary(Outliers)
 
-#Wykres Temperatury od Daty
+#Wykres wartości temperatury podczas transportu
 plot(dane$Data,dane$Temperatura, type="l", col=c("blue"), xlab="Data" , ylab="Temperatura", main="Wartość temperatury podczas transportu")
 abline(h=0.5, lty=3, col="black")
 abline(h=1, lty=3, col="black")
