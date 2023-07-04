@@ -95,24 +95,14 @@ dane3$Dzien <- as.Date(dane3$Dzien, format="%d.%m.%Y")
 dane3$Godzina <- as.POSIXct(dane3$Godzina, format="%H:%M")
 dane3 <- subset(dane3, Temperatura < 10)
 
-#Grupowanie danych po 'Dzien' oraz 'Godzina'
-grupa1 <- group_by(dane3, Temperatura, Dzien)
-licz1 <- count(select(grupa1))
-licz1 <- rename(licz1, Licza_wystąpień1=n)
+#Grupowanie danych po zmiennej 'Godzina'
+grupa <- group_by(dane3, Temperatura, Godzina)
+licz <- count(select(grupa))
+licz <- rename(licz, Liczba_wystąpień=n)
 
-grupa2 <- group_by(dane3, Temperatura, Godzina)
-licz2 <- count(select(grupa2))
-licz2 <- rename(licz2, Licza_wystąpień2=n)
-
-#Rozkłady temperatury w zależności od dnia oraz godziny
+#Rozkład temperatury w zależności od godziny
 x11();
-ggplot(licz1, aes(Temperatura, Dzien, size=Licza_wystąpień1), colour = I("blue")) + 
-  geom_point(aes(alpha = Licza_wystąpień1), colour = I("blue")) +
-  xlab ("Temperatura") + 
-  ylab ("Dzien")
-
-x11();
-ggplot(licz2, aes(Temperatura, Godzina, size=Licza_wystąpień2), colour = I("blue")) + 
-  geom_point(aes(alpha = Licza_wystąpień2), colour = I("blue")) +
+ggplot(licz, aes(Temperatura, Godzina, size=Liczba_wystąpień), colour = I("blue")) + 
+  geom_point(aes(alpha = Liczba_wystąpień), colour = I("blue")) +
   xlab ("Temperatura") + 
   ylab ("Godzina")
